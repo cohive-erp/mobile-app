@@ -4,17 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +38,11 @@ class CadastroUsuarioActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelaCadastroUser(modifier: Modifier = Modifier) {
+    var nome by remember { mutableStateOf("") }
+    var telefone by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -65,8 +68,8 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = nome,
+            onValueChange = { nome = it },
             label = { Text("Nome completo") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -78,8 +81,8 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = telefone,
+            onValueChange = { telefone = it },
             label = { Text("Telefone") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -91,8 +94,8 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = email,
+            onValueChange = { email = it },
             label = { Text("E-mail") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -104,8 +107,8 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = senha,
+            onValueChange = { senha = it },
             label = { Text("Senha") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
