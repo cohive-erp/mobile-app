@@ -4,14 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +45,8 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
     var telefone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
+    var isTermsAccepted by remember { mutableStateOf(false) }
+    var showLgpdDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -52,12 +57,14 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
     ) {
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text(
-            text = "cohive",
-            fontSize = 32.sp,
-            color = Color(0xFF9D4FFF),
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
+        // Substituindo o título "cohive" pela imagem do logo
+        Image(
+            painter = painterResource(id = R.drawable.logo_cohive), // Substitua pelo seu logo
+            contentDescription = "Logo COHIVE",
+            modifier = Modifier
+                .height(100.dp)
+                .width(200.dp)
+                .padding(bottom = 16.dp)
         )
 
         Text(
@@ -120,6 +127,81 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
             visualTransformation = PasswordVisualTransformation()
         )
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = isTermsAccepted,
+                onCheckedChange = { isTermsAccepted = it },
+                colors = CheckboxDefaults.colors(checkedColor = Color(0xFF9D4FFF))
+            )
+            Text(
+                text = "Aceito os termos da LGPD",
+                color = Color(0xFF9D4FFF),
+                modifier = Modifier
+                    .clickable { showLgpdDialog = true }
+                    .padding(start = 8.dp)
+            )
+        }
+
+        if (showLgpdDialog) {
+            AlertDialog(
+                onDismissRequest = { showLgpdDialog = false },
+                confirmButton = {
+                    TextButton(onClick = { showLgpdDialog = false }) {
+                        Text("Fechar")
+                    }
+                },
+                title = { Text("Termos da LGPD") },
+                text = {
+                    LazyColumn(
+                        modifier = Modifier.height(300.dp)
+                    ) {
+                        item {
+                            Text(
+                                text = """
+                                A COHIVE valoriza a privacidade dos seus usuários e se compromete a proteger os dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD), Lei nº 13.709/2018. Esta política de privacidade explica como coletamos, utilizamos e protegemos suas informações.
+
+                                1. Coleta de Dados
+                                Durante o uso do app COHIVE, podemos coletar as seguintes informações:
+                                - Dados pessoais: Nome, e-mail, telefone e outros dados fornecidos voluntariamente.
+                                - Dados de navegação: Informações como endereço IP, tipo de dispositivo, sistema operacional e geolocalização, quando autorizados.
+
+                                2. Uso dos Dados
+                                Utilizamos os dados coletados para:
+                                - Oferecer e melhorar nossos serviços.
+                                - Enviar atualizações, notificações e informações relevantes sobre o evento ou outros serviços da COHIVE.
+                                - Personalizar a interface e o conteúdo ao perfil de uso do usuário.
+
+                                3. Compartilhamento de Dados
+                                A COHIVE não compartilha dados pessoais com terceiros, exceto em casos de:
+                                - Cumprimento de obrigações legais.
+                                - Fornecimento de serviços essenciais por terceiros.
+
+                                4. Direitos do Usuário
+                                - Acessar seus dados: Solicitar uma cópia.
+                                - Retificar informações: Corrigir dados incorretos.
+                                - Excluir dados: Solicitar exclusão, conforme legalidade.
+
+                                5. Armazenamento e Segurança
+                                - Armazenamento seguro e proteção técnica e administrativa.
+
+                                6. Alterações na Política
+                                - Notificaremos sobre mudanças por meio do app.
+
+                                7. Contato
+                                - Dúvidas? Entre em contato: cohive.you@gmail.com
+                                """.trimIndent()
+                            )
+                        }
+                    }
+                }
+            )
+        }
+
         Button(
             onClick = { /* Ação de avançar */ },
             modifier = Modifier
@@ -128,7 +210,8 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF9D4FFF)
             ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            enabled = isTermsAccepted
         ) {
             Text(text = "Avançar", color = Color.White, fontSize = 18.sp)
         }
@@ -143,6 +226,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
