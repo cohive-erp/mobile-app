@@ -71,16 +71,17 @@ fun Home(modifier: Modifier = Modifier) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painter = painterResource(id = R.mipmap.addproductwhite),
                     contentDescription = "Ícone de Adição",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Cadastrar produto",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
@@ -100,16 +101,17 @@ fun Home(modifier: Modifier = Modifier) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painter = painterResource(id = R.mipmap.dashboardwhite),
                     contentDescription = "Ícone de Gráfico de barra",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Relatórios",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
@@ -129,16 +131,17 @@ fun Home(modifier: Modifier = Modifier) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painter = painterResource(id = R.mipmap.boxwhite),
                     contentDescription = "Ícone de caixa simbolizando Estoque",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Estoque de produtos",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
@@ -158,16 +161,17 @@ fun Home(modifier: Modifier = Modifier) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = modifier.fillMaxSize()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Image(
                     painter = painterResource(id = R.mipmap.trendwhite),
                     contentDescription = "Ícone de Gráfico de linha apontando pra cima simbolizando tendência",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Buscar tendências",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -177,7 +181,8 @@ fun Home(modifier: Modifier = Modifier) {
 
         Button(
             onClick = { /* Ação de avançar */ },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF9D4FFF)
             ),
@@ -189,12 +194,12 @@ fun Home(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.mipmap.sairwhite),
                     contentDescription = "ícone de Sair",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = "Sair",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
