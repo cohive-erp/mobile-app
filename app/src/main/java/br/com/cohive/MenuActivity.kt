@@ -1,11 +1,11 @@
 package br.com.cohive
 
+import MyBottomNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -15,10 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import br.com.cohive.ui.theme.CohiveTheme
 
 class MenuActivity : ComponentActivity() {
@@ -27,10 +27,13 @@ class MenuActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CohiveTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Home(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = { MyBottomNavigation(navController = navController) }
+                ) { innerPadding ->
+                    Home(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -59,7 +62,7 @@ fun Home(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { /* Ação de avançar */ },
+            onClick = { /* Ação de avançar para a tela de cadastro de produto */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp),
@@ -76,7 +79,7 @@ fun Home(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.mipmap.addproductwhite),
                     contentDescription = "Ícone de Adição",
-                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -89,7 +92,7 @@ fun Home(modifier: Modifier = Modifier) {
         }
 
         Button(
-            onClick = { /* Ação de avançar */ },
+            onClick = { /* Ação de avançar para a tela de relatórios */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp),
@@ -106,7 +109,7 @@ fun Home(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.mipmap.dashboardwhite),
                     contentDescription = "Ícone de Gráfico de barra",
-                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -119,7 +122,7 @@ fun Home(modifier: Modifier = Modifier) {
         }
 
         Button(
-            onClick = { /* Ação de avançar */ },
+            onClick = { /* Ação de avançar para a tela de estoque de produtos */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp),
@@ -136,7 +139,7 @@ fun Home(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.mipmap.boxwhite),
                     contentDescription = "Ícone de caixa simbolizando Estoque",
-                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -149,7 +152,7 @@ fun Home(modifier: Modifier = Modifier) {
         }
 
         Button(
-            onClick = { /* Ação de avançar */ },
+            onClick = { /* Ação de avançar para a tela de tendências */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp),
@@ -166,7 +169,7 @@ fun Home(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.mipmap.trendwhite),
                     contentDescription = "Ícone de Gráfico de linha apontando pra cima simbolizando tendência",
-                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -180,7 +183,7 @@ fun Home(modifier: Modifier = Modifier) {
         }
 
         Button(
-            onClick = { /* Ação de avançar */ },
+            onClick = { /* Ação de sair */ },
             modifier = Modifier
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
@@ -194,7 +197,7 @@ fun Home(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.mipmap.sairwhite),
                     contentDescription = "ícone de Sair",
-                    modifier = Modifier.size(24.dp) // Tamanho da imagem reduzido
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
