@@ -1,5 +1,6 @@
 package br.com.cohive
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,6 +49,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
     var senha by remember { mutableStateOf("") }
     var isTermsAccepted by remember { mutableStateOf(false) }
     var showLgpdDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -203,7 +206,10 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         }
 
         Button(
-            onClick = { /* Ação de avançar */ },
+            onClick = {
+                val intent = Intent(context, LoginActivity::class.java)
+                context.startActivity(intent)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -211,11 +217,10 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
                 containerColor = Color(0xFF9D4FFF)
             ),
             shape = RoundedCornerShape(12.dp),
-            enabled = isTermsAccepted
+            enabled = nome.isNotBlank() && telefone.isNotBlank() && email.isNotBlank() && senha.isNotBlank() && isTermsAccepted
         ) {
             Text(text = "Avançar", color = Color.White, fontSize = 18.sp)
         }
-
         Text(
             text = "Já tenho uma conta",
             fontSize = 16.sp,

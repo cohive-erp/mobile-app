@@ -1,5 +1,6 @@
 package br.com.cohive
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -46,7 +47,15 @@ class LoginActivity : ComponentActivity() {
             CohiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     TelaLoginUser(
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        onNavigateToMenu = {
+                            val intent = Intent(this@LoginActivity, MenuActivity::class.java)
+                            startActivity(intent)
+                        },
+                        onNavigateToCadastro = {
+                            val intent = Intent(this@LoginActivity, CadastroUsuarioActivity::class.java)
+                            startActivity(intent)
+                        }
                     )
                 }
             }
@@ -56,7 +65,7 @@ class LoginActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaLoginUser(modifier: Modifier = Modifier) {
+fun TelaLoginUser(modifier: Modifier = Modifier, onNavigateToMenu: () -> Unit, onNavigateToCadastro: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
@@ -70,7 +79,7 @@ fun TelaLoginUser(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.logo_cohive), // Substitua pelo seu logo
+            painter = painterResource(id = R.drawable.logo_cohive),
             contentDescription = "Logo COHIVE",
             modifier = Modifier
                 .height(100.dp)
@@ -90,7 +99,6 @@ fun TelaLoginUser(modifier: Modifier = Modifier) {
             color = Color.Black,
             modifier = Modifier
                 .padding(top = 8.dp)
-                .clickable { /* descrição */ }
         )
 
         OutlinedTextField(
@@ -121,7 +129,7 @@ fun TelaLoginUser(modifier: Modifier = Modifier) {
         )
 
         Button(
-            onClick = { /* Ação de login */ },
+            onClick = { onNavigateToMenu() }, // Navega para o Menu
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -139,15 +147,15 @@ fun TelaLoginUser(modifier: Modifier = Modifier) {
             color = Color(0xFF9D4FFF),
             modifier = Modifier
                 .padding(top = 8.dp)
-                .clickable { /* Ação de criar conta */ }
+                .clickable { onNavigateToCadastro() } // Navega para a tela de cadastro
         )
+
         Text(
             text = "Esqueci minha senha",
             fontSize = 16.sp,
             color = Color(0xFF9D4FFF),
             modifier = Modifier
                 .padding(top = 8.dp)
-                .clickable { /* Ação de refazer um senha */ }
         )
     }
 }
