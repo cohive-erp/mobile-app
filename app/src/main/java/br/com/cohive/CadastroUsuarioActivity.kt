@@ -207,7 +207,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                val intent = Intent(context, LoginActivity::class.java)
+                val intent = Intent(context, CadastrarLojaActivity::class.java)
                 context.startActivity(intent)
             },
             modifier = Modifier
