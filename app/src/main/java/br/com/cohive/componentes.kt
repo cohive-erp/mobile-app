@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import br.com.cohive.CadastroProdutoActivity
 import br.com.cohive.DashboardActivity
 import br.com.cohive.MenuActivity
 
@@ -79,6 +80,10 @@ fun MyBottomNavigation(navController: NavHostController) {
                             }
                             "dashboard" -> { // Corrigido para DashboardActivity
                                 val intent = Intent(navController.context, DashboardActivity::class.java)
+                                navController.context.startActivity(intent)
+                            }
+                            "qr_code" -> {
+                                val intent = Intent(navController.context, CadastroProdutoActivity::class.java)
                                 navController.context.startActivity(intent)
                             }
                         }
