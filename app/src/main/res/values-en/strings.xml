@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Cohive</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_cadastro_produto">ProductRegistrationActivity</string>
+    <string name="bem_vindo">Welcome back!</string>
+    <string name="entre_novamente">Please log in again to manage your products.</string>
+    <string name="email">Email</string>
+    <string name="senha">Password</string>
+    <string name="entrar">Login</string>
+    <string name="não_tenho_conta">I do not have an account yet</string>
+    <string name="esqueci_minha_senha">Forgot my password</string>
+    <string name="cadastro">Start your registration</string>
+    <string name="nome_completo">Full name</string>
+    <string name="telefone">Phone</string>
+    <string name="cadastrar_loja">Register store</string>
+    <string name="endereco">Address</string>
+    <string name="numero">Number</string>
+    <string name="cep">ZIP Code</string>
+    <string name="cnpj">CNPJ</string>
+    <string name="cadastrar">Register</string>
+    <string name="voltar">Back</string>
+    <string name="ja_tenho_uma_conta">I already have an account</string>
+    <string name="redefinir_senha">Reset password</string>
+    <string name="digite_seu_email">Enter your email to receive the reset link</string>
+    <string name="enviar">Send</string>
+    <string name="adicione_o_codigo_enviado">Add the code that was sent to your email</string>
+    <string name="codigo">Code</string>
+    <string name="digite_nova_senha">Enter your new password</string>
+    <string name="nova_senha">New password</string>
+    <string name="confirmar_nova_senha">Confirm new password</string>
+    <string name="refefinir_senha">Reset password</string>
+    <string name="cancelar">Cancel</string>
+    <string name="castro_produto">Product Registration</string>
+    <string name="codigo_ean">EAN Code</string>
+    <string name="adicionar_produto">Add product</string>
+    <string name="buscar_tendencias">Search trends</string>
+    <string name="relatorios">Reports</string>
+    <string name="sair">Log out</string>
+    <string name="relatorio_de_produtos">Product report</string>
+    <string name="baixar_relatorio">Download report</string>
+    <string name="relatorio_de_prdutos">Product report</string>
+    <string name="voltamos_em_breve">We all be back soon!</string>
+    <string name="ops_pagina_não_encontrada">Oops! Page not found</string>
+    <string name="retornar">Return</string>
+    <string name="nao_ha_produtos">No products available.</string>
+    <string name="nao_ha_relatorios">No reports available.</string>
+    <string name="categoria">Category</string>
+    <string name="preco">Price (BRL)</string>
+    <string name="quantidade">Quantity</string>
+    <string name="Permissao_de_camera_negada">Camera permission denied</string>
+    <string name="aceito_os_termos_da_lgpd">I accept the terms of the LGPD</string>
+    <string name="fechar">Close</string>
+    <string name="termos_da_lgpd">LGPD Terms</string>
+    <string name="termos_lgpd">COHIVE values the privacy of its users and is committed to protecting personal data in accordance with the General Data Protection Law (LGPD), Law No. 13.709/2018. This privacy policy explains how we collect, use, and protect your information.
+
+                                1. Data Collection
+                                While using the COHIVE app, we may collect the following information:
+                                - Personal data: Name, email, phone, and other data provided voluntarily.
+                                - Browsing data: Information such as IP address, device type, operating system, and geolocation, when authorized.
+
+                                2. Data Usage
+                                We use the collected data to:
+                                - Provide and improve our services.
+                                - Send updates, notifications, and relevant information about the event or other COHIVE services.
+                                - Personalize the interface and content according to the user is usage profile.
+
+                                3. Data Sharing
+                                COHIVE does not share personal data with third parties, except in cases of:
+                                - Compliance with legal obligations.
+                                - Provision of essential services by third parties.
+
+                                4. User Rights
+                                - Access your data: Request a copy.
+                                - Correct information: Correct inaccurate data.
+                                - Delete data: Request deletion, as legally permitted.
+
+                                5. Storage and Security
+                                - Secure storage and technical and administrative protection.
+
+                                6. Changes to the Policy
+                                - We will notify you about changes through the app.
+
+                                7. Contact
+                                - Questions? Contact us: cohive.you@gmail.com</string>
+    <string name="escolha_o_numero_de_meses">Choose the number of months:</string>
+</resources>

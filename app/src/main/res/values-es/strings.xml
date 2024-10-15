@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cohive</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_cadastro_produto">ActividadRegistroProducto</string>
+    <string name="bem_vindo">¡Bienvenido de nuevo!</string>
+    <string name="entre_novamente">Por favor, inicia sesión nuevamente para gestionar tus productos.</string>
+    <string name="email">Correo electrónico</string>
+    <string name="senha">Contraseña</string>
+    <string name="entrar">Iniciar sesión</string>
+    <string name="não_tenho_conta">Aún no tengo una cuenta</string>
+    <string name="esqueci_minha_senha">Olvidé mi contraseña</string>
+    <string name="cadastro">Inicia tu registro</string>
+    <string name="nome_completo">Nombre completo</string>
+    <string name="telefone">Teléfono</string>
+    <string name="cadastrar_loja">Registrar tienda</string>
+    <string name="endereco">Dirección</string>
+    <string name="numero">Número</string>
+    <string name="cep">Código Postal</string>
+    <string name="cnpj">CNPJ</string>
+    <string name="cadastrar">Registrar</string>
+    <string name="voltar">Volver</string>
+    <string name="ja_tenho_uma_conta">Ya tengo una cuenta</string>
+    <string name="redefinir_senha">Restablecer contraseña</string>
+    <string name="digite_seu_email">Ingresa tu correo electrónico para recibir el enlace de restablecimiento</string>
+    <string name="enviar">Enviar</string>
+    <string name="adicione_o_codigo_enviado">Agrega el código que se envió a tu correo electrónico</string>
+    <string name="codigo">Código</string>
+    <string name="digite_nova_senha">Ingresa tu nueva contraseña</string>
+    <string name="nova_senha">Nueva contraseña</string>
+    <string name="confirmar_nova_senha">Confirmar nueva contraseña</string>
+    <string name="refefinir_senha">Restablecer contraseña</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="castro_produto">Registro de producto</string>
+    <string name="codigo_ean">Código EAN</string>
+    <string name="adicionar_produto">Agregar producto</string>
+    <string name="buscar_tendencias">Buscar tendencias</string>
+    <string name="relatorios">Informes</string>
+    <string name="sair">Cerrar sesión</string>
+    <string name="relatorio_de_produtos">Informe de productos</string>
+    <string name="baixar_relatorio">Descargar informe</string>
+    <string name="relatorio_de_prdutos">Informe de productos</string>
+    <string name="voltamos_em_breve">¡Volveremos pronto!</string>
+    <string name="ops_pagina_não_encontrada">¡Ups! Página no encontrada</string>
+    <string name="retornar">Retornar</string>
+    <string name="nao_ha_produtos">No hay productos.</string>
+    <string name="nao_ha_relatorios">No hay informes.</string>
+    <string name="categoria">Categoría</string>
+    <string name="preco">Precio (BRL)</string>
+    <string name="quantidade">Cantidad</string>
+    <string name="Permissao_de_camera_negada">Permiso de cámara denegado</string>
+    <string name="aceito_os_termos_da_lgpd">Acepto los términos de la LGPD</string>
+    <string name="fechar">Cerrar</string>
+    <string name="termos_da_lgpd">Términos de la LGPD</string>
+    <string name="termos_lgpd">COHIVE valora la privacidad de sus usuarios y se compromete a proteger los datos personales de acuerdo con la Ley General de Protección de Datos (LGPD), Ley No. 13.709/2018. Esta política de privacidad explica cómo recopilamos, usamos y protegemos su información.
+
+                                1. Recopilación de Datos
+                                Mientras usa la aplicación COHIVE, podemos recopilar la siguiente información:
+                                - Datos personales: Nombre, correo electrónico, teléfono y otros datos proporcionados voluntariamente.
+                                - Datos de navegación: Información como dirección IP, tipo de dispositivo, sistema operativo y geolocalización, cuando sea autorizado.
+
+                                2. Uso de los Datos
+                                Utilizamos los datos recopilados para:
+                                - Ofrecer y mejorar nuestros servicios.
+                                - Enviar actualizaciones, notificaciones e información relevante sobre el evento u otros servicios de COHIVE.
+                                - Personalizar la interfaz y el contenido según el perfil de uso del usuario.
+
+                                3. Compartición de Datos
+                                COHIVE no comparte datos personales con terceros, excepto en casos de:
+                                - Cumplimiento de obligaciones legales.
+                                - Provisión de servicios esenciales por parte de terceros.
+
+                                4. Derechos del Usuario
+                                - Acceder a sus datos: Solicitar una copia.
+                                - Corregir información: Corregir datos incorrectos.
+                                - Eliminar datos: Solicitar eliminación, conforme a la legalidad.
+
+                                5. Almacenamiento y Seguridad
+                                - Almacenamiento seguro y protección técnica y administrativa.
+
+                                6. Cambios en la Política
+                                - Te notificaremos sobre cambios a través de la aplicación.
+
+                                7. Contacto
+                                - ¿Preguntas? Contáctanos: cohive.you@gmail.com</string>
+    <string name="escolha_o_numero_de_meses">Elige el número de meses:</string>
+
+</resources>
