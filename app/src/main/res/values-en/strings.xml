@@ -55,36 +55,31 @@
     <string name="aceito_os_termos_da_lgpd">I accept the terms of the LGPD</string>
     <string name="fechar">Close</string>
     <string name="termos_da_lgpd">LGPD Terms</string>
-    <string name="termos_lgpd">COHIVE values the privacy of its users and is committed to protecting personal data in accordance with the General Data Protection Law (LGPD), Law No. 13.709/2018. This privacy policy explains how we collect, use, and protect your information.
-
-                                1. Data Collection
-                                While using the COHIVE app, we may collect the following information:
-                                - Personal data: Name, email, phone, and other data provided voluntarily.
-                                - Browsing data: Information such as IP address, device type, operating system, and geolocation, when authorized.
-
-                                2. Data Usage
-                                We use the collected data to:
-                                - Provide and improve our services.
-                                - Send updates, notifications, and relevant information about the event or other COHIVE services.
-                                - Personalize the interface and content according to the user is usage profile.
-
-                                3. Data Sharing
-                                COHIVE does not share personal data with third parties, except in cases of:
-                                - Compliance with legal obligations.
-                                - Provision of essential services by third parties.
-
-                                4. User Rights
-                                - Access your data: Request a copy.
-                                - Correct information: Correct inaccurate data.
-                                - Delete data: Request deletion, as legally permitted.
-
-                                5. Storage and Security
-                                - Secure storage and technical and administrative protection.
-
-                                6. Changes to the Policy
-                                - We will notify you about changes through the app.
-
-                                7. Contact
-                                - Questions? Contact us: cohive.you@gmail.com</string>
+    <string name="termos_lgpd">
+    COHIVE values the privacy of its users and is committed to protecting personal data in accordance with the General Data Protection Law (LGPD), Law No. 13.709/2018. This privacy policy explains how we collect, use, and protect your information.\n\n
+    1. Data Collection\n
+    While using the COHIVE app, we may collect the following information:\n
+    - Personal data: Name, email, phone, and other data provided voluntarily.\n
+    - Browsing data: Information such as IP address, device type, operating system, and geolocation, when authorized.\n\n
+    2. Data Usage\n
+    We use the collected data to:\n
+    - Provide and improve our services.\n
+    - Send updates, notifications, and relevant information about the event or other COHIVE services.\n
+    - Personalize the interface and content according to the user’s usage profile.\n\n
+    3. Data Sharing\n
+    COHIVE does not share personal data with third parties, except in cases of:\n
+    - Compliance with legal obligations.\n
+    - Provision of essential services by third parties.\n\n
+    4. User Rights\n
+    - Access your data: Request a copy.\n
+    - Correct information: Correct inaccurate data.\n
+    - Delete data: Request deletion, as legally permitted.\n\n
+    5. Storage and Security\n
+    - Secure storage and technical and administrative protection.\n\n
+    6. Changes to the Policy\n
+    - We will notify you about changes through the app.\n\n
+    7. Contact\n
+    - Questions? Contact us: cohive.you@gmail.com
+</string>
     <string name="escolha_o_numero_de_meses">Choose the number of months:</string>
 </resources>

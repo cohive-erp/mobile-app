@@ -1,4 +1,6 @@
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +16,7 @@ import androidx.navigation.NavHostController
 import br.com.cohive.CadastroProdutoActivity
 import br.com.cohive.DashboardActivity
 import br.com.cohive.MenuActivity
+import java.util.Locale
 
 @Composable
 fun MyBottomNavigation(navController: NavHostController) {

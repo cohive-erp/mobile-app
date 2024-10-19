@@ -17,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.cohive.ui.theme.CohiveTheme
+import okio.Okio.source
 
 class CadastroUsuarioActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +65,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         // Substituindo o título "cohive" pela imagem do logo
         Image(
             painter = painterResource(id = R.drawable.logo_cohive), // Substitua pelo seu logo
-            contentDescription = "Logo COHIVE",
+            contentDescription = stringResource(R.string.app_name),
             modifier = Modifier
                 .height(100.dp)
                 .width(200.dp)
@@ -71,7 +73,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = "Inicie seu cadastro",
+            text = stringResource(R.string.cadastro), // "Inicie seu cadastro"
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
@@ -80,7 +82,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = nome,
             onValueChange = { nome = it },
-            label = { Text("Nome completo") },
+            label = { Text(stringResource(R.string.nome_completo)) }, // "Nome completo"
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -93,7 +95,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = telefone,
             onValueChange = { telefone = it },
-            label = { Text("Telefone") },
+            label = { Text(stringResource(R.string.telefone)) }, // "Telefone"
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -106,7 +108,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("E-mail") },
+            label = { Text(stringResource(R.string.email)) }, // "E-mail"
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -119,7 +121,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         OutlinedTextField(
             value = senha,
             onValueChange = { senha = it },
-            label = { Text("Senha") },
+            label = { Text(stringResource(R.string.senha)) }, // "Senha"
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -142,7 +144,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
                 colors = CheckboxDefaults.colors(checkedColor = Color(0xFF9D4FFF))
             )
             Text(
-                text = "Aceito os termos da LGPD",
+                text = stringResource(R.string.aceito_os_termos_da_lgpd), // "Aceito os termos da LGPD"
                 color = Color(0xFF9D4FFF),
                 modifier = Modifier
                     .clickable { showLgpdDialog = true }
@@ -155,50 +157,16 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
                 onDismissRequest = { showLgpdDialog = false },
                 confirmButton = {
                     TextButton(onClick = { showLgpdDialog = false }) {
-                        Text("Fechar")
+                        Text(stringResource(R.string.fechar)) // "Fechar"
                     }
                 },
-                title = { Text("Termos da LGPD") },
+                title = { Text(stringResource(R.string.termos_da_lgpd)) }, // "Termos da LGPD"
                 text = {
                     LazyColumn(
                         modifier = Modifier.height(300.dp)
                     ) {
                         item {
-                            Text(
-                                text = """
-                                A COHIVE valoriza a privacidade dos seus usuários e se compromete a proteger os dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD), Lei nº 13.709/2018. Esta política de privacidade explica como coletamos, utilizamos e protegemos suas informações.
-
-                                1. Coleta de Dados
-                                Durante o uso do app COHIVE, podemos coletar as seguintes informações:
-                                - Dados pessoais: Nome, e-mail, telefone e outros dados fornecidos voluntariamente.
-                                - Dados de navegação: Informações como endereço IP, tipo de dispositivo, sistema operacional e geolocalização, quando autorizados.
-
-                                2. Uso dos Dados
-                                Utilizamos os dados coletados para:
-                                - Oferecer e melhorar nossos serviços.
-                                - Enviar atualizações, notificações e informações relevantes sobre o evento ou outros serviços da COHIVE.
-                                - Personalizar a interface e o conteúdo ao perfil de uso do usuário.
-
-                                3. Compartilhamento de Dados
-                                A COHIVE não compartilha dados pessoais com terceiros, exceto em casos de:
-                                - Cumprimento de obrigações legais.
-                                - Fornecimento de serviços essenciais por terceiros.
-
-                                4. Direitos do Usuário
-                                - Acessar seus dados: Solicitar uma cópia.
-                                - Retificar informações: Corrigir dados incorretos.
-                                - Excluir dados: Solicitar exclusão, conforme legalidade.
-
-                                5. Armazenamento e Segurança
-                                - Armazenamento seguro e proteção técnica e administrativa.
-
-                                6. Alterações na Política
-                                - Notificaremos sobre mudanças por meio do app.
-
-                                7. Contato
-                                - Dúvidas? Entre em contato: cohive.you@gmail.com
-                                """.trimIndent()
-                            )
+                            Text(text = stringResource(R.string.termos_lgpd)) // Termos LGPD
                         }
                     }
                 }
@@ -219,10 +187,11 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
             shape = RoundedCornerShape(12.dp),
             enabled = nome.isNotBlank() && telefone.isNotBlank() && email.isNotBlank() && senha.isNotBlank() && isTermsAccepted
         ) {
-            Text(text = "Avançar", color = Color.White, fontSize = 18.sp)
+            Text(text = stringResource(R.string.cadastrar), color = Color.White, fontSize = 18.sp) // "Avançar"
         }
+
         Text(
-            text = "Já tenho uma conta",
+            text = stringResource(R.string.ja_tenho_uma_conta), // "Já tenho uma conta"
             fontSize = 16.sp,
             color = Color(0xFF9D4FFF),
             modifier = Modifier
@@ -231,7 +200,6 @@ fun TelaCadastroUser(modifier: Modifier = Modifier) {
         )
     }
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

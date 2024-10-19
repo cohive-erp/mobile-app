@@ -54,37 +54,30 @@
     <string name="aceito_os_termos_da_lgpd">Acepto los términos de la LGPD</string>
     <string name="fechar">Cerrar</string>
     <string name="termos_da_lgpd">Términos de la LGPD</string>
-    <string name="termos_lgpd">COHIVE valora la privacidad de sus usuarios y se compromete a proteger los datos personales de acuerdo con la Ley General de Protección de Datos (LGPD), Ley No. 13.709/2018. Esta política de privacidad explica cómo recopilamos, usamos y protegemos su información.
-
-                                1. Recopilación de Datos
-                                Mientras usa la aplicación COHIVE, podemos recopilar la siguiente información:
-                                - Datos personales: Nombre, correo electrónico, teléfono y otros datos proporcionados voluntariamente.
-                                - Datos de navegación: Información como dirección IP, tipo de dispositivo, sistema operativo y geolocalización, cuando sea autorizado.
-
-                                2. Uso de los Datos
-                                Utilizamos los datos recopilados para:
-                                - Ofrecer y mejorar nuestros servicios.
-                                - Enviar actualizaciones, notificaciones e información relevante sobre el evento u otros servicios de COHIVE.
-                                - Personalizar la interfaz y el contenido según el perfil de uso del usuario.
-
-                                3. Compartición de Datos
-                                COHIVE no comparte datos personales con terceros, excepto en casos de:
-                                - Cumplimiento de obligaciones legales.
-                                - Provisión de servicios esenciales por parte de terceros.
-
-                                4. Derechos del Usuario
-                                - Acceder a sus datos: Solicitar una copia.
-                                - Corregir información: Corregir datos incorrectos.
-                                - Eliminar datos: Solicitar eliminación, conforme a la legalidad.
-
-                                5. Almacenamiento y Seguridad
-                                - Almacenamiento seguro y protección técnica y administrativa.
-
-                                6. Cambios en la Política
-                                - Te notificaremos sobre cambios a través de la aplicación.
-
-                                7. Contacto
-                                - ¿Preguntas? Contáctanos: cohive.you@gmail.com</string>
+    <string name="termos_lgpd">COHIVE valora la privacidad de sus usuarios y se compromete a proteger los datos personales de acuerdo con la Ley General de Protección de Datos (LGPD), Ley No. 13.709/2018. Esta política de privacidad explica cómo recopilamos, usamos y protegemos su información.\n\n
+    1. Recopilación de Datos\n
+    Mientras usa la aplicación COHIVE, podemos recopilar la siguiente información:\n
+    - Datos personales: Nombre, correo electrónico, teléfono y otros datos proporcionados voluntariamente.\n
+    - Datos de navegación: Información como dirección IP, tipo de dispositivo, sistema operativo y geolocalización, cuando sea autorizado.\n\n
+    2. Uso de los Datos\n
+    Utilizamos los datos recopilados para:\n
+    - Ofrecer y mejorar nuestros servicios.\n
+    - Enviar actualizaciones, notificaciones e información relevante sobre el evento u otros servicios de COHIVE.\n
+    - Personalizar la interfaz y el contenido según el perfil de uso del usuario.\n\n
+    3. Compartición de Datos\n
+    COHIVE no comparte datos personales con terceros, excepto en casos de:\n
+    - Cumplimiento de obligaciones legales.\n
+    - Provisión de servicios esenciales por parte de terceros.\n\n
+    4. Derechos del Usuario\n
+    - Acceder a sus datos: Solicitar una copia.\n
+    - Corregir información: Corregir datos incorrectos.\n
+    - Eliminar datos: Solicitar eliminación, conforme a la legalidad.\n\n
+    5. Almacenamiento y Seguridad\n
+    - Almacenamiento seguro y protección técnica y administrativa.\n\n
+    6. Cambios en la Política\n
+    - Te notificaremos sobre cambios a través de la aplicación.\n\n
+    7. Contacto\n
+    - ¿Preguntas? Contáctanos: cohive.you@gmail.com</string>
     <string name="escolha_o_numero_de_meses">Elige el número de meses:</string>
 
 </resources>
