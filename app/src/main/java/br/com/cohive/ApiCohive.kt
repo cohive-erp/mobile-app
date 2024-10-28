@@ -3,6 +3,7 @@ package br.com.cohive
 import br.com.cohive.estoque.EstoqueAtualizacaoDto
 import br.com.cohive.estoque.EstoqueListagemDto
 import br.com.cohive.estoque.ProdutoCriacaoDto
+import br.com.cohive.estoque.ProdutoEdicaoDto
 import br.com.cohive.loja.Loja
 import br.com.cohive.loja.LojaCriacaoDto
 import br.com.cohive.usuario.LoginRequest
@@ -16,6 +17,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import java.math.BigDecimal
 
 interface ApiCohive {
     @POST("usuarios/login")
@@ -43,5 +45,16 @@ interface ApiCohive {
     @POST("estoque")
     suspend fun cadastrarProduto(@Body produtoCriacaoDto: ProdutoCriacaoDto): Response<Void>
 
+    @PUT("estoque/atualizar-produto/{id}")
+    suspend fun editarProduto(
+        @Path("id") produtoId: Int,
+        @Body produtoEdicaoDto: ProdutoEdicaoDto
+    ): Response<Void>
+
+    @GET("estoque/checar-quantidade-dos-produtos/{id}")
+    suspend fun checkProductQuantities(@Path("id") userId: Int): Response<Map<String, Any>>
+
+    @GET("relatorios/faturas-mensais")
+    fun getMonthlyInvoicesForLastSixMonths(): Call<List<BigDecimal>>
 
 }

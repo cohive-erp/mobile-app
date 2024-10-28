@@ -37,7 +37,7 @@
             android:label="@string/title_activity_estoque"
             android:theme="@style/Theme.Cohive" />
         <activity
-            android:name=".AlertaActivity"
+            android:name=".alerta.AlertaActivity"
             android:exported="true"
             android:label="@string/title_activity_alerta"
             android:theme="@style/Theme.Cohive" />
@@ -47,7 +47,7 @@
             android:label="@string/title_activity_cadastro_produto"
             android:theme="@style/Theme.Cohive" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".dashboard.DashboardActivity"
             android:exported="true"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Cohive" />

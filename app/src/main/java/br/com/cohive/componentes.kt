@@ -11,9 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import br.com.cohive.AlertaActivity
+import br.com.cohive.alerta.AlertaActivity
 import br.com.cohive.CadastroProdutoActivity
-import br.com.cohive.DashboardActivity
+import br.com.cohive.dashboard.DashboardActivity
 import br.com.cohive.MenuActivity
 import br.com.cohive.estoque.EstoqueActivity
 

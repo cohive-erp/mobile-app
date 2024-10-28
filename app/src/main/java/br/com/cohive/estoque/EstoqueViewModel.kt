@@ -10,6 +10,10 @@ import androidx.lifecycle.viewModelScope
 import br.com.cohive.RetrofitService
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
@@ -23,7 +27,13 @@ class EstoqueViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
+    private val _productQuantities = MutableLiveData<Map<String, Int>>()
+    val productQuantities: LiveData<Map<String, Int>> get() = _productQuantities
+
     private val gson = Gson()
+
+    private val _monthlyInvoices = MutableLiveData<List<BigDecimal>>()
+    val monthlyInvoices: LiveData<List<BigDecimal>> get() = _monthlyInvoices
 
     // Função para buscar estoque
     fun fetchEstoque() {
@@ -78,7 +88,6 @@ class EstoqueViewModel : ViewModel() {
         }
     }
 
-
     // Função para deletar um produto
     fun deleteProduct(productId: Int) {
         viewModelScope.launch {
@@ -94,6 +103,31 @@ class EstoqueViewModel : ViewModel() {
             }
         }
     }
+
+    fun editarProduto(produtoId: Int, produtoEdicaoDto: ProdutoEdicaoDto, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            try {
+                // Log dos dados que estão sendo enviados
+                Log.d("EstoqueViewModel", "ProdutoId: $produtoId, Dados: $produtoEdicaoDto")
+
+                // Faz a requisição para editar o produto
+                val response: Response<Void> = RetrofitService.api.editarProduto(produtoId, produtoEdicaoDto)
+                if (response.isSuccessful) {
+                    // Produto editado com sucesso
+                    onResult(true)
+                } else {
+                    // Log do código de erro e mensagem
+                    Log.e("EstoqueViewModel", "Erro ao editar o produto: ${response.code()} - ${response.message()}")
+                    onResult(false)
+                }
+            } catch (e: Exception) {
+                // Lidar com erro de requisição
+                Log.e("EstoqueViewModel", "Erro de requisição: ${e.message}")
+                onResult(false)
+            }
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun darEntradaProduto(produto: Produto, loja: Loja, quantidade: Int, dataEntrada: String) {
@@ -149,6 +183,38 @@ class EstoqueViewModel : ViewModel() {
                 Log.e("Erro na baixa", e.message ?: "Erro desconhecido")
             }
         }
+    }
+
+    fun checkProductQuantities(userId: Int) {
+        viewModelScope.launch {
+            try {
+                val response: Response<Map<String, Any>> = RetrofitService.api.checkProductQuantities(userId)
+                if (response.isSuccessful) {
+                    _productQuantities.value = response.body()?.get("quantities") as? Map<String, Int>
+                }
+            } catch (e: Exception) {
+                // Lidar com erro de requisição
+            }
+        }
+    }
+
+    fun fetchMonthlyInvoices() {
+        // Faça a chamada para a API utilizando Retrofit
+        RetrofitService.api.getMonthlyInvoicesForLastSixMonths().enqueue(object :
+            Callback<List<BigDecimal>> {
+            override fun onResponse(call: Call<List<BigDecimal>>, response: Response<List<BigDecimal>>) {
+                if (response.isSuccessful) {
+                    // Atualiza o LiveData com a lista de faturas mensais
+                    _monthlyInvoices.value = response.body() ?: emptyList()
+                } else {
+                    // Trate o erro de resposta não bem-sucedida, se necessário
+                }
+            }
+
+            override fun onFailure(call: Call<List<BigDecimal>>, t: Throwable) {
+                // Trate o erro da chamada, se necessário
+            }
+        })
     }
 
     // Função para lidar com erros

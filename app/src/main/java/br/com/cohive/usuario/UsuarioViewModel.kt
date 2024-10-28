@@ -22,6 +22,9 @@ class UsuarioViewModel : ViewModel() {
     private val _userId = MutableLiveData<Int>()
     val userId: LiveData<Int> = _userId
 
+    private val _nomeUsuario = MutableLiveData<String>()
+    val nomeUsuario: LiveData<String> = _nomeUsuario
+
     // Função para login
     fun login(loginRequest: LoginRequest) {
         viewModelScope.launch {
@@ -32,9 +35,10 @@ class UsuarioViewModel : ViewModel() {
                     response.body()?.let {
                         Log.d(
                             "br.com.cohive.usuario.UsuarioViewModel",
-                            "Login bem-sucedido. Token: ${it.token}"
+                            "Login bem-sucedido. Token: ${it.token}, Nome: ${it.nome}"
                         )
                         RetrofitService.setToken(it.token)
+                        _nomeUsuario.postValue(it.nome)
                         _loginResult.postValue(it)
                     } ?: run {
                         Log.e(

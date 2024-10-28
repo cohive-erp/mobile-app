@@ -19,6 +19,17 @@ data class Produto(
     val deleted: Boolean // Adicionando campo deleted
 )
 
+data class ProdutoEdicaoDto(
+    val nome: String,
+    val fabricante: String,
+    val categoria: String,
+    val descricao: String,
+    val precoVenda: Double,
+    val precoCompra: Double,
+    val quantidade: Int,
+    val loja: Loja // A loja associada ao produto
+)
+
 data class ProdutoCriacaoDto(
     val nome: String,
     val fabricante: String,
