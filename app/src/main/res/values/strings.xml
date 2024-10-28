@@ -79,4 +79,8 @@
     7. Contato\n
     - Dúvidas? Entre em contato: cohive.you@gmail.com</string>
     <string name="escolha_o_numero_de_meses">Escolha o número de meses:</string>
+    <string name="title_activity_alerta">AlertaActivity</string>
+    <string name="title_activity_estoque">EstoqueActivity</string>
+    <string name="title_activity_edit_product">EditProductActivity</string>
+    <string name="title_activity_criar_produto_sem_codigo">CriarProdutoSemCodigo</string>
 </resources>

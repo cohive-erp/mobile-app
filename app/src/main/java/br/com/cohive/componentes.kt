@@ -1,6 +1,4 @@
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,10 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import br.com.cohive.AlertaActivity
 import br.com.cohive.CadastroProdutoActivity
 import br.com.cohive.DashboardActivity
 import br.com.cohive.MenuActivity
-import java.util.Locale
+import br.com.cohive.estoque.EstoqueActivity
 
 @Composable
 fun MyBottomNavigation(navController: NavHostController) {
@@ -27,7 +26,7 @@ fun MyBottomNavigation(navController: NavHostController) {
         NavItem("Analytics", "dashboard", br.com.cohive.R.drawable.ic_analytics), // Mudamos a rota para "dashboard"
         NavItem("QR Code", "qr_code", br.com.cohive.R.drawable.ic_qr_code),
         NavItem("Notifications", "notifications", br.com.cohive.R.drawable.ic_notifications),
-        NavItem("Profile", "profile", br.com.cohive.R.drawable.ic_profile)
+        NavItem("Estoque", "estoque", br.com.cohive.R.drawable.ic_profile)
     )
 
     Surface(
@@ -85,8 +84,16 @@ fun MyBottomNavigation(navController: NavHostController) {
                                 val intent = Intent(navController.context, DashboardActivity::class.java)
                                 navController.context.startActivity(intent)
                             }
-                            "qr_code" -> {
+                            "qr_code" -> { // Corrigido para QR_CODE
                                 val intent = Intent(navController.context, CadastroProdutoActivity::class.java)
+                                navController.context.startActivity(intent)
+                            }
+                            "notifications" -> {
+                                val intent = Intent(navController.context, AlertaActivity::class.java)
+                                navController.context.startActivity(intent)
+                            }
+                            "estoque" -> {
+                                val intent = Intent(navController.context, EstoqueActivity::class.java)
                                 navController.context.startActivity(intent)
                             }
                         }
@@ -111,4 +118,3 @@ fun MyBottomNavigation(navController: NavHostController) {
         }
     }
 }
-
