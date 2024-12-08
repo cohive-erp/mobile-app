@@ -195,14 +195,20 @@ class EstoqueViewModel(
         }
     }
 
-    fun checkProductQuantities(userId: Int) {
+    fun checkProductQuantities() {
         viewModelScope.launch {
             try {
-                val response: Response<Map<String, Any>> = RetrofitService.api.checkProductQuantities(userId)
-                if (response.isSuccessful) {
-                    _productQuantities.value = response.body()?.get("quantities") as? Map<String, Int>
+                // Recupera o ID da loja do DataStore
+                val lojaId = dataStoreManager.getLojaId()
+
+                if (lojaId != -1) {
+                    val response: Response<Map<String, Any>> = RetrofitService.api.checkProductQuantities(lojaId)
+                    if (response.isSuccessful) {
+                        _productQuantities.value = response.body()?.get("quantities") as? Map<String, Int>
+                    }
                 }
             } catch (e: Exception) {
+                Log.e("Erro ao tentar buscar quantidades", e.message ?: "Erro desconhecido")
                 // Lidar com erro de requisição
             }
         }

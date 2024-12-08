@@ -56,8 +56,8 @@ interface ApiCohive {
         @Body produtoEdicaoDto: ProdutoEdicaoDto
     ): Response<Void>
 
-    @GET("estoque/checar-quantidade-dos-produtos/{id}")
-    suspend fun checkProductQuantities(@Path("id") userId: Int): Response<Map<String, Any>>
+    @GET("estoque/checar-quantidade-dos-produtos/{lojaId}")
+    suspend fun checkProductQuantities(@Path("lojaId") lojaId: Int) : Response<Map<String, Any>>
 
     @GET("relatorios/faturas-mensais/{lojaId}")
     fun getMonthlyInvoicesForLastSixMonthsByLoja(@Path("lojaId") lojaId: Int): Call<List<BigDecimal>>

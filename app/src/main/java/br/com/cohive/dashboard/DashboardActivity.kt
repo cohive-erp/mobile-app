@@ -29,16 +29,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import br.com.cohive.ui.theme.CohiveTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.cohive.EstoqueViewModelFactory
 import br.com.cohive.estoque.EstoqueViewModel
 import kotlinx.coroutines.launch
 
 class DashboardActivity : ComponentActivity() {
+    private lateinit var estoqueViewModel: EstoqueViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val dataStoreManager = DataStoreManager(applicationContext)
+        val factory = EstoqueViewModelFactory(dataStoreManager)
+        estoqueViewModel = ViewModelProvider(this, factory).get(EstoqueViewModel::class.java)
+
+
         setContent {
             CohiveTheme {
                 val navController = rememberNavController()

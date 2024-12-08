@@ -121,41 +121,10 @@ fun ProductScreen(
     onBaixaClick: (Produto, Loja) -> Unit
 ) {
     Column(modifier = modifier) {
-        SearchBar()
         Spacer(modifier = Modifier.height(16.dp))
         CreateProductButton()
         Spacer(modifier = Modifier.height(16.dp))
         ProductList(products, onEditClick, onDeleteClick, onEntradaClick, onBaixaClick)
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .weight(1f)
-                .padding(end = 8.dp),
-            placeholder = { Text("Buscar") },
-            singleLine = true,
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color(0xFFF5F5F5),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            )
-        )
-        IconButton(onClick = { /* Ação do filtro */ }) {
-            Icon(Icons.Default.FilterList, contentDescription = "Filter", tint = Color(0xFF9C27B0))
-        }
     }
 }
 

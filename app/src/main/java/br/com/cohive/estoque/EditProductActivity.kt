@@ -20,18 +20,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
+import br.com.cohive.DataStoreManager
+import br.com.cohive.EstoqueViewModelFactory
 import br.com.cohive.R
 import br.com.cohive.ui.theme.CohiveTheme
 
 class EditProductActivity : ComponentActivity() {
-    private val estoqueViewModel: EstoqueViewModel by viewModels()
+    private lateinit var estoqueViewModel: EstoqueViewModel
+    private lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         val productId = intent?.getIntExtra("PRODUCT_ID", -1)
+        dataStoreManager = DataStoreManager(applicationContext) // Inicialize a classe auxiliar do DataStore.
+
+        val factory = EstoqueViewModelFactory(dataStoreManager)
+        estoqueViewModel = ViewModelProvider(this, factory).get(EstoqueViewModel::class.java)
 
         setContent {
             CohiveTheme {

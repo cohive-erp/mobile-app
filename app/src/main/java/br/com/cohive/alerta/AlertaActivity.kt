@@ -4,8 +4,6 @@ import MyBottomNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,21 +15,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
+import br.com.cohive.DataStoreManager
+import br.com.cohive.EstoqueViewModelFactory
 import br.com.cohive.R
 import br.com.cohive.estoque.EstoqueViewModel
 import br.com.cohive.ui.theme.CohiveTheme
+import kotlinx.coroutines.delay
 
 class AlertaActivity : ComponentActivity() {
-    private val estoqueViewModel: EstoqueViewModel by viewModels()
+    private lateinit var estoqueViewModel: EstoqueViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        val dataStoreManager = DataStoreManager(applicationContext)
+        val factory = EstoqueViewModelFactory(dataStoreManager)
+        estoqueViewModel = ViewModelProvider(this, factory).get(EstoqueViewModel::class.java)
+
         setContent {
             CohiveTheme {
                 val navController = rememberNavController()
@@ -50,10 +57,10 @@ class AlertaActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchComponent(modifier: Modifier = Modifier, estoqueViewModel: EstoqueViewModel) {
-    var buscar by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }  // Controle de carregamento
+    var showSecondMessage by remember { mutableStateOf(false) } // Controle da segunda mensagem
     val productQuantities by estoqueViewModel.productQuantities.observeAsState()
 
     Column(
@@ -61,60 +68,109 @@ fun SearchComponent(modifier: Modifier = Modifier, estoqueViewModel: EstoqueView
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.Top  // Alinhamento no topo
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            OutlinedTextField(
-                value = buscar,
-                onValueChange = { buscar = it },
-                label = { Text("Buscar") },
-                modifier = Modifier.width(270.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color(0xFF9D4FFF),
-                    unfocusedBorderColor = Color(0xFF9D4FFF),
-                    cursorColor = Color(0xFF9D4FFF),
-                    focusedLabelColor = Color(0xFF9D4FFF)
-                )
-            )
-            Box(
-                modifier = Modifier
-                    .size(55.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xFF9D4EDD)),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.funil),
-                    contentDescription = "Buscar icon",
-                    modifier = Modifier.size(30.dp),
-                    contentScale = ContentScale.Fit
-                )
-            }
-        }
+        // Título centralizado
+        Text(
+            text = "Cheque as quantidades dos produtos aqui!",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp), // Adiciona um espaçamento abaixo do título
+            textAlign = TextAlign.Center  // Garantindo que o texto esteja centralizado
+        )
 
-        // Botão para checar as quantidades
+        // Botão centralizado
         Button(
             onClick = {
-                val userId = 1 // Substitua pelo ID do usuário correto
-                estoqueViewModel.checkProductQuantities(userId)
+                isLoading = true  // Inicia o carregamento ao clicar no botão
+                estoqueViewModel.checkProductQuantities()
             },
-            modifier = Modifier.padding(vertical = 16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF9D4FFF)),
+            shape = MaterialTheme.shapes.medium
         ) {
             Text("Checar Quantidades")
         }
 
-        // Exibir alerta se alguma quantidade for igual a 3
-        productQuantities?.let { quantities ->
-            quantities.forEach { (productName, quantity) ->
-                if (quantity == 3) {
-                    AlertaCritico(productName)
+        // Exibe as mensagens com delay
+        LaunchedEffect(isLoading) {
+            if (isLoading) {
+                // Primeiro, espera 6 segundos para exibir a primeira mensagem
+                delay(6000)
+                showSecondMessage = true  // Exibe a segunda mensagem
+
+                // Depois, espera mais 6 segundos para remover a segunda mensagem
+                delay(6000)
+                showSecondMessage = false
+
+                // Finaliza o carregamento
+                isLoading = false
+            }
+        }
+
+        // Exibe a primeira mensagem de "Carregando..." por 6 segundos
+        if (isLoading && !showSecondMessage) {
+            ShowLoadingMessage()
+        }
+
+        // Exibe a segunda mensagem "Estamos quase lá!" por mais 6 segundos
+        if (showSecondMessage) {
+            ShowLoadingMessage2()
+        }
+
+        // Exibe os alertas de quantidade dos produtos após as mensagens
+        if (!isLoading && !showSecondMessage) {
+            productQuantities?.let { quantities ->
+                quantities.forEach { (productName, quantity) ->
+                    if (quantity == 3) {
+                        AlertaCritico(productName)
+                    } else if (quantity in 4..5) {
+                        AlertaEmAtencao()
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ShowLoadingMessage() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Carregando...\n",
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun ShowLoadingMessage2() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Estamos quase lá!",
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -126,9 +182,10 @@ fun AlertaCritico(productName: String) {
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color(0xFFD32F2F))
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             Image(
                 painter = painterResource(id = R.mipmap.xzinho),
                 contentDescription = "Alerta Crítico",
@@ -138,7 +195,8 @@ fun AlertaCritico(productName: String) {
             Text(
                 text = "Alerta Crítico! A quantidade do produto: $productName está em 3.",
                 color = Color.White,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
             )
         }
     }
@@ -152,9 +210,10 @@ fun AlertaEmAtencao() {
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color(0xFFFFA000))
-            .padding(16.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             Image(
                 painter = painterResource(id = R.mipmap.trianguloyellow),
                 contentDescription = "Alerta em Atenção",
@@ -164,7 +223,8 @@ fun AlertaEmAtencao() {
             Text(
                 text = "Alerta em atenção. Verifique as informações.",
                 color = Color.White,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
             )
         }
     }
