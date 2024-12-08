@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.cohive.DataStoreManager
 import br.com.cohive.RetrofitService
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -20,7 +21,9 @@ import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-class EstoqueViewModel : ViewModel() {
+class EstoqueViewModel(
+    private val dataStoreManager: DataStoreManager
+) : ViewModel() {
     private val _estoqueList = MutableLiveData<List<EstoqueListagemDto>>()
     val estoqueList: LiveData<List<EstoqueListagemDto>> = _estoqueList
 
@@ -39,30 +42,23 @@ class EstoqueViewModel : ViewModel() {
     fun fetchEstoque() {
         viewModelScope.launch {
             try {
-                val response = RetrofitService.api.listarEstoque()
+                // Recupera o lojaId do DataStore
+                val lojaId = dataStoreManager.getLojaId()
+                Log.d("EstoqueViewModel", "Recuperado lojaId do DataStore: $lojaId")
+
+                // Faz a chamada à API com o lojaId
+                val response = RetrofitService.api.listarEstoque(lojaId)
                 if (response.isSuccessful) {
                     val originalList = response.body() ?: emptyList()
 
-                    // Log da lista original recebida da API
-                    Log.d("EstoqueViewModel", "Lista original recebida da API: $originalList")
-
-                    // Filtrar os produtos que não estão marcados como deletados (campo deleted = false)
+                    // Filtra os produtos que não estão deletados
                     val filteredProducts = originalList.filter { estoque ->
                         val isEstoqueDeleted = estoque.isDeleted
                         val isProdutoDeleted = estoque.produto.deleted
-
-                        // Log de verificação de cada item
-                        Log.d("EstoqueViewModel", "Verificando Estoque: ${estoque.produto.nome}, isEstoqueDeleted: $isEstoqueDeleted, isProdutoDeleted: $isProdutoDeleted")
-
-                        // Filtrar apenas quando ambos estão ativos (não deletados)
                         !isEstoqueDeleted && !isProdutoDeleted
                     }
 
-                    // Log da lista filtrada
-                    Log.d("EstoqueViewModel", "Lista filtrada (deleted = false): $filteredProducts")
-
-                    // Posta a nova lista filtrada
-                    _estoqueList.postValue(filteredProducts)
+                    _estoqueList.postValue(filteredProducts) // Atualiza o LiveData com a lista filtrada
                 } else {
                     handleError(response.errorBody()?.string() ?: "Erro desconhecido")
                 }
@@ -71,7 +67,6 @@ class EstoqueViewModel : ViewModel() {
             }
         }
     }
-
     // Função para cadastrar um novo produto
     fun cadastrarProduto(produtoCriacaoDto: ProdutoCriacaoDto, onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {

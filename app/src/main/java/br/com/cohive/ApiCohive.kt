@@ -21,6 +21,7 @@ import retrofit2.http.Path
 import java.math.BigDecimal
 
 interface ApiCohive {
+
     @POST("usuarios/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<UsuarioTokenDto>
 
@@ -32,7 +33,7 @@ interface ApiCohive {
     suspend fun cadastrarLoja(@Body loja: LojaCriacaoDto): Response<Loja>
 
     @GET("estoque/trazer-estoque/{lojaId}")
-    suspend fun listarEstoque(@Path("lojaId") lojaId: Int = 1): Response<List<EstoqueListagemDto>>
+    suspend fun listarEstoque(@Path("lojaId") lojaId: Int): Response<List<EstoqueListagemDto>>
 
     @PUT("estoque/{id}")
     suspend fun deletarProduto(@Path("id") id: Int): Response<Void>

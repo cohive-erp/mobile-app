@@ -34,17 +34,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import br.com.cohive.DataStoreManager
+import br.com.cohive.EstoqueViewModelFactory
 import br.com.cohive.R
 import br.com.cohive.ui.theme.CohiveTheme
+import kotlinx.coroutines.launch
 
 class EstoqueActivity : ComponentActivity() {
-    private val estoqueViewModel: EstoqueViewModel by viewModels()
+    private lateinit var estoqueViewModel: EstoqueViewModel
+    private lateinit var dataStoreManager: DataStoreManager // Classe auxiliar para interagir com o DataStore.
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        dataStoreManager = DataStoreManager(applicationContext) // Inicialize a classe auxiliar do DataStore.
+
+        val factory = EstoqueViewModelFactory(dataStoreManager)
+        estoqueViewModel = ViewModelProvider(this, factory).get(EstoqueViewModel::class.java)
+
         setContent {
             CohiveTheme {
                 val navController = rememberNavController()
@@ -67,21 +79,35 @@ class EstoqueActivity : ComponentActivity() {
                             estoqueViewModel.deleteProduct(productId)
                         },
                         onEntradaClick = { produto, loja ->
-                            val dataEntrada = estoqueList.first { it.produto.idProduto == produto.idProduto }.dataEntradaInicial
-                            estoqueViewModel.darEntradaProduto(produto, loja, 1, dataEntrada) // Passando a data de entrada correta
+                            lifecycleScope.launch {
+                                val updatedLoja = modifyLojaWithIdFromDataStore(loja)
+                                val dataEntrada = estoqueList.first { it.produto.idProduto == produto.idProduto }.dataEntradaInicial
+                                estoqueViewModel.darEntradaProduto(produto, updatedLoja, 1, dataEntrada)
+                            }
                         },
                         onBaixaClick = { produto, loja ->
-                            val dataEntrada1 = estoqueList.first(){ it.produto.idProduto == produto.idProduto }.dataEntradaInicial
-                            estoqueViewModel.darBaixaProduto(produto, loja, 1, dataEntrada1)
+                            lifecycleScope.launch {
+                                val updatedLoja = modifyLojaWithIdFromDataStore(loja)
+                                val dataEntrada = estoqueList.first { it.produto.idProduto == produto.idProduto }.dataEntradaInicial
+                                estoqueViewModel.darBaixaProduto(produto, updatedLoja, 1, dataEntrada)
+                            }
                         }
                     )
                 }
 
                 LaunchedEffect(Unit) {
-                    estoqueViewModel.fetchEstoque() // Chama a função para buscar os dados
+                    estoqueViewModel.fetchEstoque() // Busca os dados de estoque.
                 }
             }
         }
+    }
+
+    /**
+     * Modifica o ID da loja com o valor salvo no DataStore.
+     */
+    private suspend fun modifyLojaWithIdFromDataStore(loja: Loja): Loja {
+        val savedLojaId = dataStoreManager.getLojaId()
+        return loja.copy(idLoja = savedLojaId)
     }
 }
 
