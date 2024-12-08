@@ -20,12 +20,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
+import br.com.cohive.DataStoreManager
 import br.com.cohive.MenuActivity
 import br.com.cohive.R
 import br.com.cohive.ui.theme.CohiveTheme
 
 class LoginActivity : ComponentActivity() {
     private lateinit var usuarioViewModel: UsuarioViewModel
+    private lateinit var dataStoreManager: DataStoreManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +35,14 @@ class LoginActivity : ComponentActivity() {
 
         usuarioViewModel = ViewModelProvider(this).get(UsuarioViewModel::class.java)
 
+        // Inicializando o DataStoreManager
+        dataStoreManager = DataStoreManager(applicationContext)
+
         setContent {
             CohiveTheme {
                 TelaLoginUser(
                     onLogin = { email, senha ->
-                        usuarioViewModel.login(LoginRequest(email, senha))
+                        usuarioViewModel.login(LoginRequest(email, senha), dataStoreManager)
                     },
                     onNavigateToCadastro = {
                         val intent = Intent(this@LoginActivity, CadastroUsuarioActivity::class.java)
@@ -57,6 +62,7 @@ class LoginActivity : ComponentActivity() {
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

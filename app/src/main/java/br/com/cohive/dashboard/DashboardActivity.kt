@@ -1,6 +1,8 @@
 package br.com.cohive.dashboard
 
 import MyBottomNavigation
+import br.com.cohive.usuario.UsuarioViewModel
+import br.com.cohive.DataStoreManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,12 +18,14 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.cohive.ui.theme.CohiveTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.cohive.estoque.EstoqueViewModel
+import kotlinx.coroutines.launch
 
 class DashboardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,22 +56,30 @@ class DashboardActivity : ComponentActivity() {
 
 @Composable
 fun DashboardContent(modifier: Modifier = Modifier) {
-    // Obtenha a ViewModel
     val estoqueViewModel: EstoqueViewModel = viewModel()
-
-    // Chame a função para buscar faturas mensais ao entrar na tela
-    LaunchedEffect(Unit) {
-        estoqueViewModel.fetchMonthlyInvoices()
-    }
 
     // Observe o LiveData de faturas mensais
     val monthlyInvoices by estoqueViewModel.monthlyInvoices.observeAsState(emptyList())
 
-    var selectedMonths by remember { mutableStateOf(6) } // Use 6 meses por padrão
+    // Estado para armazenar o ID da loja
+    var lojaId by remember { mutableStateOf(0) }
+    var selectedMonths by remember { mutableStateOf(6) } // Usa 6 meses por padrão
 
     // Converta a lista de BigDecimal para Float para o gráfico
     val dataLine = monthlyInvoices.map { it.toFloat() }
     val labels = listOf("Último Mês", "Mês Anterior", "Mês 3", "Mês 4", "Mês 5", "Mês 6")
+
+    // Recupera o ID da loja da DataStore assim que a tela for carregada
+    val context = LocalContext.current // Acessa o contexto diretamente dentro de uma função composable
+    LaunchedEffect(context) {
+        // Inicializando o DataStoreManager corretamente
+        val dataStoreManager = DataStoreManager(context)
+
+        lojaId = dataStoreManager.getLojaId() // A função getLojaId() deve ser implementada na classe UserDataStore
+        if (lojaId > 0) {
+            estoqueViewModel.fetchMonthlyInvoicesByLoja(lojaId) // Faz a requisição assim que o ID da loja for obtido
+        }
+    }
 
     Column(
         modifier = modifier
@@ -91,15 +104,6 @@ fun DashboardContent(modifier: Modifier = Modifier) {
                 )
                 Text(text = "$selectedMonths mês(es)", fontSize = 14.sp)
             }
-        }
-
-        // Botão para baixar relatório
-        Button(
-            onClick = { /* Ação do botão */ },
-            modifier = Modifier.padding(16.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF9D4FFF))
-        ) {
-            Text(text = "Baixar Relatório", color = Color.White)
         }
 
         // Gráfico de Linha
@@ -155,6 +159,7 @@ fun DashboardContent(modifier: Modifier = Modifier) {
         }
     }
 }
+
 
 @Composable
 fun BarChart(data: List<Float>, labels: List<String>, modifier: Modifier = Modifier) {

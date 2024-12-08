@@ -19,6 +19,15 @@ data class Produto(
     val deleted: Boolean // Adicionando campo deleted
 )
 
+data class EANCriacaoDto(
+    val ean: String, // Usando LocalDateTime como String
+    val nome: String, // Relacionado à entidade Produto
+    val precoVenda: Double,
+    val precoCompra: Double,// Relacionado à entidade Loja
+    val quantidade: Int,
+    val loja: Loja // Relacionado à entidade Loja
+    )
+
 data class ProdutoEdicaoDto(
     val nome: String,
     val fabricante: String,

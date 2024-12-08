@@ -1,5 +1,6 @@
 package br.com.cohive
 
+import br.com.cohive.estoque.EANCriacaoDto
 import br.com.cohive.estoque.EstoqueAtualizacaoDto
 import br.com.cohive.estoque.EstoqueListagemDto
 import br.com.cohive.estoque.ProdutoCriacaoDto
@@ -30,8 +31,8 @@ interface ApiCohive {
     @POST("lojas")
     suspend fun cadastrarLoja(@Body loja: LojaCriacaoDto): Response<Loja>
 
-    @GET("estoque")
-    suspend fun listarEstoque(): Response<List<EstoqueListagemDto>>
+    @GET("estoque/trazer-estoque/{lojaId}")
+    suspend fun listarEstoque(@Path("lojaId") lojaId: Int = 1): Response<List<EstoqueListagemDto>>
 
     @PUT("estoque/{id}")
     suspend fun deletarProduto(@Path("id") id: Int): Response<Void>
@@ -45,6 +46,9 @@ interface ApiCohive {
     @POST("estoque")
     suspend fun cadastrarProduto(@Body produtoCriacaoDto: ProdutoCriacaoDto): Response<Void>
 
+    @POST("estoque/preencher-produto")
+    suspend fun preencherProduto(@Body eanCriacaoDto: EANCriacaoDto): Response<Void>
+
     @PUT("estoque/atualizar-produto/{id}")
     suspend fun editarProduto(
         @Path("id") produtoId: Int,
@@ -54,7 +58,7 @@ interface ApiCohive {
     @GET("estoque/checar-quantidade-dos-produtos/{id}")
     suspend fun checkProductQuantities(@Path("id") userId: Int): Response<Map<String, Any>>
 
-    @GET("relatorios/faturas-mensais")
-    fun getMonthlyInvoicesForLastSixMonths(): Call<List<BigDecimal>>
+    @GET("relatorios/faturas-mensais/{lojaId}")
+    fun getMonthlyInvoicesForLastSixMonthsByLoja(@Path("lojaId") lojaId: Int): Call<List<BigDecimal>>
 
 }

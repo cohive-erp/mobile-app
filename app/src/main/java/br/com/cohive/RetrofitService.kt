@@ -4,6 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitService {
     private const val BASE_URL = "http://10.0.2.2:8080/api/"
@@ -31,6 +32,10 @@ object RetrofitService {
     }
 
     private val client = OkHttpClient.Builder()
+        .connectTimeout(60, TimeUnit.SECONDS) // Tempo limite de conexão
+        .readTimeout(60, TimeUnit.SECONDS)    // Tempo limite de leitura
+        .writeTimeout(60, TimeUnit.SECONDS)   // Tempo limite de escrita
+        .retryOnConnectionFailure(true)  // Tenta novamente em caso de falha de conexão
         .addInterceptor(authInterceptor)
         .build()
 

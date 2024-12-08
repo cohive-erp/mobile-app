@@ -1,5 +1,7 @@
 package br.com.cohive.usuario
 
+import br.com.cohive.estoque.Loja
+
 data class LoginRequest(
     val email: String,
     val senha: String
@@ -16,7 +18,8 @@ data class UsuarioTokenDto(
     val userId: Int,
     val nome: String,
     val email: String,
-    val token: String
+    val token: String,
+    val loja: Loja
 )
 
 data class Usuario(
@@ -25,7 +28,8 @@ data class Usuario(
     val numeroCelular: String,
     val email: String,
     val senha: String,
-    val isdeleted: Boolean
+    val loja: Loja?,
+    val isdeleted: Boolean,
 )
 
 data class UsuarioResponseDto(

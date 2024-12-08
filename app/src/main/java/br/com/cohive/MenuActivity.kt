@@ -1,6 +1,7 @@
 package br.com.cohive
 
 import MyBottomNavigation
+import br.com.cohive.usuario.UsuarioViewModel
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,7 +30,6 @@ import br.com.cohive.estoque.CriarProdutoSemCodigo
 import br.com.cohive.estoque.EstoqueActivity
 import br.com.cohive.ui.theme.CohiveTheme
 import br.com.cohive.usuario.LoginActivity
-import br.com.cohive.usuario.UsuarioViewModel
 
 class MenuActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

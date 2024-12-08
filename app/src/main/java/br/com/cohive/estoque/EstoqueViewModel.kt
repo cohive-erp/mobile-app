@@ -88,6 +88,21 @@ class EstoqueViewModel : ViewModel() {
         }
     }
 
+    fun cadastraComEAN(eanCriacaoDto: EANCriacaoDto, onSuccess: () -> Unit, onError: (String) -> Unit){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitService.api.preencherProduto(eanCriacaoDto)
+                if (response.isSuccessful){
+                    onSuccess()
+                } else {
+                    onError("Erro ao cadastrar produto")
+                }
+            } catch (e: Exception) {
+                onError(e.message ?: "Erro desconhecido")
+            }
+        }
+    }
+
     // Função para deletar um produto
     fun deleteProduct(productId: Int) {
         viewModelScope.launch {
@@ -198,9 +213,8 @@ class EstoqueViewModel : ViewModel() {
         }
     }
 
-    fun fetchMonthlyInvoices() {
-        // Faça a chamada para a API utilizando Retrofit
-        RetrofitService.api.getMonthlyInvoicesForLastSixMonths().enqueue(object :
+    fun fetchMonthlyInvoicesByLoja(lojaId: Int) {
+        RetrofitService.api.getMonthlyInvoicesForLastSixMonthsByLoja(lojaId).enqueue(object :
             Callback<List<BigDecimal>> {
             override fun onResponse(call: Call<List<BigDecimal>>, response: Response<List<BigDecimal>>) {
                 if (response.isSuccessful) {
@@ -208,14 +222,17 @@ class EstoqueViewModel : ViewModel() {
                     _monthlyInvoices.value = response.body() ?: emptyList()
                 } else {
                     // Trate o erro de resposta não bem-sucedida, se necessário
+                    println("Erro ao buscar faturas: ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<List<BigDecimal>>, t: Throwable) {
                 // Trate o erro da chamada, se necessário
+                println("Falha na requisição: ${t.message}")
             }
         })
     }
+
 
     // Função para lidar com erros
     private fun handleError(message: String) {

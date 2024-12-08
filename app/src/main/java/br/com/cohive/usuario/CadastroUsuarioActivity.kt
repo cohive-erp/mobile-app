@@ -57,7 +57,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
     var senha by remember { mutableStateOf("") }
     var isTermsAccepted by remember { mutableStateOf(false) }
     var showLgpdDialog by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    val context = LocalContext.current // Aqui está o Contexto
 
     // Observando o resultado do cadastro
     usuarioViewModel.isSuccessful.observe(LocalLifecycleOwner.current) { isSuccessful ->
@@ -210,7 +210,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
                     email = email,
                     senha = senha
                 )
-                usuarioViewModel.cadastrar(usuario) // Função de cadastro
+                usuarioViewModel.cadastrar(usuario)// Passando o contexto aqui
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -221,8 +221,9 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
             shape = RoundedCornerShape(12.dp),
             enabled = nome.isNotBlank() && telefone.isNotBlank() && email.isNotBlank() && senha.isNotBlank() && isTermsAccepted
         ) {
-            Text(text = stringResource(R.string.cadastrar), color = Color.White, fontSize = 18.sp) // "Cadastrar"
+            Text(text = stringResource(R.string.cadastrar), color = Color.White, fontSize = 18.sp)
         }
+    }
 
         Text(
             text = stringResource(R.string.ja_tenho_uma_conta), // "Já tenho uma conta"
@@ -233,11 +234,12 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
                 .clickable { /* Ação de login */ }
         )
     }
-}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingCadastroUser() {
+    val context = LocalContext.current
+
     CohiveTheme {
         TelaCadastroUser(usuarioViewModel = UsuarioViewModel())
     }

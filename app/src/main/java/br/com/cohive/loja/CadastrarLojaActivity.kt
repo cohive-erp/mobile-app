@@ -164,6 +164,7 @@ fun TelaCadastroLoja(
                     numeroCelular = userCelular ?: throw IllegalArgumentException("Número de celular não pode ser nulo"),
                     email = userEmail ?: throw IllegalArgumentException("E-mail do usuário não pode ser nulo"),
                     senha = userSenha ?: throw IllegalArgumentException("Senha não pode ser nula"),
+                    loja = null,
                     isdeleted = false
                 )
 
