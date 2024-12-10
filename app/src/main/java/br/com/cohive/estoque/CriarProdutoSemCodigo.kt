@@ -1,6 +1,7 @@
 package br.com.cohive.estoque
 
 import MyBottomNavigation
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,7 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import br.com.cohive.DataStoreManager
-import br.com.cohive.EstoqueViewModelFactory
 import br.com.cohive.R
 import br.com.cohive.ui.theme.CohiveTheme
 import kotlinx.coroutines.launch
@@ -68,7 +68,7 @@ class CriarProdutoSemCodigo : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CriarProdutoScreen(
     productId: Int?,

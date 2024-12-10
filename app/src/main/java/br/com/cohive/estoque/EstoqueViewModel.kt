@@ -38,6 +38,9 @@ class EstoqueViewModel(
     private val _monthlyInvoices = MutableLiveData<List<BigDecimal>>()
     val monthlyInvoices: LiveData<List<BigDecimal>> get() = _monthlyInvoices
 
+    private val _produtoCadastroStatus = MutableLiveData<Boolean>()
+    val produtoCadastroStatus: LiveData<Boolean> = _produtoCadastroStatus
+
     // Função para buscar estoque
     fun fetchEstoque() {
         viewModelScope.launch {
@@ -83,17 +86,47 @@ class EstoqueViewModel(
         }
     }
 
-    fun cadastraComEAN(eanCriacaoDto: EANCriacaoDto, onSuccess: () -> Unit, onError: (String) -> Unit){
+    suspend fun cadastrarProdutoComEAN(
+        ean: String,
+        nome: String,
+        precoVenda: Double,
+        precoCompra: Double,
+        quantidade: Int
+    ) {
+        // Recupera o id da loja do DataStore
+        val lojaId = dataStoreManager.getLojaId()
+
+        val lojaSelecionada = Loja(
+            idLoja = 1, // Exemplo, você deve substituir com a loja selecionada pelo usuário
+            rua = "Rua Exemplo",
+            bairro = "Bairro Exemplo",
+            cidade = "Cidade Exemplo",
+            estado = "Estado Exemplo",
+            numero = 100,
+            cep = "00000-000",
+            cnpj = "00.000.000/0000-00"
+        )
+
+        val eanCriacaoDto = EANCriacaoDto(
+            ean = ean,
+            nome = nome,
+            precoVenda = precoVenda,
+            precoCompra = precoCompra,
+            quantidade = quantidade,
+            loja = Loja(lojaId, lojaSelecionada.rua, lojaSelecionada.bairro, lojaSelecionada.cidade, lojaSelecionada.estado, lojaSelecionada.numero, lojaSelecionada.cep, lojaSelecionada.cnpj)
+        )
+
+        // Chama o endpoint para cadastrar o produto
         viewModelScope.launch {
             try {
                 val response = RetrofitService.api.preencherProduto(eanCriacaoDto)
-                if (response.isSuccessful){
-                    onSuccess()
+                if (response.isSuccessful) {
+                    _produtoCadastroStatus.postValue(true)
                 } else {
-                    onError("Erro ao cadastrar produto")
+                    _produtoCadastroStatus.postValue(false)
                 }
             } catch (e: Exception) {
-                onError(e.message ?: "Erro desconhecido")
+                _produtoCadastroStatus.postValue(false)
             }
         }
     }

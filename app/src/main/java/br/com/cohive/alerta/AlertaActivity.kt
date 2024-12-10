@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import br.com.cohive.DataStoreManager
-import br.com.cohive.EstoqueViewModelFactory
+import br.com.cohive.estoque.EstoqueViewModelFactory
 import br.com.cohive.R
 import br.com.cohive.estoque.EstoqueViewModel
 import br.com.cohive.ui.theme.CohiveTheme

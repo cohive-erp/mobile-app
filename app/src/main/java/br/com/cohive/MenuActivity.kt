@@ -136,23 +136,6 @@ fun Home(modifier: Modifier = Modifier) {
         }
 
         item {
-            // Botão de buscar tendências
-            Button(
-                onClick = {
-                    val intent = Intent(context, DashboardActivity::class.java)
-                    context.startActivity(intent)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF9D4FFF)),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                ButtonContent(text = "Buscar tendências", iconResId = R.mipmap.trendwhite)
-            }
-        }
-
-        item {
             // Botão de sair
             Button(
                 onClick = {

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitService {
-    private const val BASE_URL = "http://10.0.2.2:8080/api/"
+    private const val BASE_URL = "http://54.198.29.13:8080/api/"
 
     private var token: String? = null
 

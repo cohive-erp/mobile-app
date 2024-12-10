@@ -1,7 +1,6 @@
 package br.com.cohive.dashboard
 
 import MyBottomNavigation
-import br.com.cohive.usuario.UsuarioViewModel
 import br.com.cohive.DataStoreManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,13 +11,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.Slider
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,9 +29,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import br.com.cohive.ui.theme.CohiveTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
-import br.com.cohive.EstoqueViewModelFactory
+import br.com.cohive.estoque.EstoqueViewModelFactory
 import br.com.cohive.estoque.EstoqueViewModel
-import kotlinx.coroutines.launch
 
 class DashboardActivity : ComponentActivity() {
     private lateinit var estoqueViewModel: EstoqueViewModel
@@ -47,7 +42,6 @@ class DashboardActivity : ComponentActivity() {
         val dataStoreManager = DataStoreManager(applicationContext)
         val factory = EstoqueViewModelFactory(dataStoreManager)
         estoqueViewModel = ViewModelProvider(this, factory).get(EstoqueViewModel::class.java)
-
 
         setContent {
             CohiveTheme {

@@ -6,14 +6,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,9 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.cohive.DataStoreManager
-import br.com.cohive.EstoqueViewModelFactory
 import br.com.cohive.R
 import br.com.cohive.ui.theme.CohiveTheme
 
@@ -43,7 +41,7 @@ class EditProductActivity : ComponentActivity() {
 
         setContent {
             CohiveTheme {
-                val navController = rememberNavController()
+                val navController = rememberNavController() // Criação do NavController
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -52,6 +50,7 @@ class EditProductActivity : ComponentActivity() {
                     EditProductScreen(
                         productId = productId,
                         estoqueViewModel = estoqueViewModel,
+                        navController = navController, // Passando o navController para o Composable
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -65,6 +64,7 @@ class EditProductActivity : ComponentActivity() {
 fun EditProductScreen(
     productId: Int?,
     estoqueViewModel: EstoqueViewModel,
+    navController: NavController, // Adicionando navController aqui
     modifier: Modifier = Modifier
 ) {
     // Estados para os campos
@@ -228,6 +228,10 @@ fun EditProductScreen(
                     estoqueViewModel.editarProduto(productId ?: -1, produtoEdicaoDto) { sucesso ->
                         if (sucesso) {
                             Log.d("EditProductActivity", "Produto editado com sucesso")
+                            // Navegar para EstoqueActivity utilizando o NavController
+                            navController.navigate("estoque") { // Passando o nome da tela de Estoque
+                                popUpTo("edit_product_screen") { inclusive = true } // Opcional: Remover a EditProductActivity da pilha
+                            }
                         } else {
                             Log.e("EditProductActivity", "Erro ao editar o produto")
                         }

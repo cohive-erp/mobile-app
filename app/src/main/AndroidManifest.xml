@@ -42,7 +42,7 @@
             android:label="@string/title_activity_alerta"
             android:theme="@style/Theme.Cohive" />
         <activity
-            android:name=".CadastroProdutoActivity"
+            android:name=".estoque.CadastroProdutoActivity"
             android:exported="true"
             android:label="@string/title_activity_cadastro_produto"
             android:theme="@style/Theme.Cohive" />

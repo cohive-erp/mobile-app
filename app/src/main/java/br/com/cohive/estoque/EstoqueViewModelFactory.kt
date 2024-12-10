@@ -1,8 +1,8 @@
-package br.com.cohive
+package br.com.cohive.estoque
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.cohive.estoque.EstoqueViewModel
+import br.com.cohive.DataStoreManager
 
 class EstoqueViewModelFactory(
     private val dataStoreManager: DataStoreManager

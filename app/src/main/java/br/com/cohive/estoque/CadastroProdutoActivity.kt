@@ -1,7 +1,8 @@
-package br.com.cohive
+package br.com.cohive.estoque
 
 import MyBottomNavigation
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -15,7 +16,9 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,18 +33,31 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import br.com.cohive.DataStoreManager
+import br.com.cohive.R
 import br.com.cohive.ui.theme.CohiveTheme
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import kotlinx.coroutines.launch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CadastroProdutoActivity : ComponentActivity() {
+    private lateinit var estoqueViewModel: EstoqueViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val dataStoreManager = DataStoreManager(applicationContext)
+        val factory = EstoqueViewModelFactory(dataStoreManager)
+        estoqueViewModel = ViewModelProvider(this, factory).get(EstoqueViewModel::class.java)
+
         setContent {
             CohiveTheme {
                 val navController = rememberNavController()
@@ -50,127 +66,119 @@ class CadastroProdutoActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = { MyBottomNavigation(navController = navController) }
                 ) { innerPadding ->
-                    TelaCadastroProduto(modifier = Modifier.padding(innerPadding))
+                    TelaCadastroProduto(
+                        modifier = Modifier.padding(innerPadding),
+                        onCadastrarProduto = { ean, nome, precoVenda, precoCompra, quantidade ->
+                            lifecycleScope.launch {
+                                estoqueViewModel.cadastrarProdutoComEAN(ean, nome, precoVenda, precoCompra, quantidade)
+                            }
+                        }
+                    )
                 }
             }
         }
+
+        estoqueViewModel.produtoCadastroStatus.observe(this, Observer { sucesso ->
+            if (sucesso) {
+                // Exibe um toast de sucesso
+                Toast.makeText(this, "Produto cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+
+                // Após o cadastro bem-sucedido, redireciona para a EstoqueActivity
+                val intent = Intent(this, EstoqueActivity::class.java)
+                startActivity(intent)
+
+                // Finaliza a tela de cadastro para não deixar ela na pilha de atividades
+                finish()
+            } else {
+                Toast.makeText(this, "Erro ao cadastrar o produto.", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+
 @Composable
-fun TelaCadastroProduto(modifier: Modifier = Modifier) {
+fun TelaCadastroProduto(
+    modifier: Modifier = Modifier,
+    onCadastrarProduto: (String, String, Double, Double, Int) -> Unit
+) {
     var codigoEan by remember { mutableStateOf("") }
     var nomeProduto by remember { mutableStateOf("") }
-    val context = LocalContext.current
-
-    // Verificar e solicitar permissão para usar a câmera
-    val cameraPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            // Iniciar a câmera
-        } else {
-            Toast.makeText(context, "Permissão de câmera negada", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        // Solicitar permissão de câmera ao iniciar a tela
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-        }
-    }
+    var precoVenda by remember { mutableStateOf("") }
+    var precoCompra by remember { mutableStateOf("") }
+    var quantidade by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Visualização da câmera com borda roxa
+        // Câmera dentro de uma caixa no topo
         Box(
             modifier = Modifier
-                .size(300.dp)  // Definir tamanho exato da visualização da câmera
-                .clip(RoundedCornerShape(16.dp))  // Aplicar canto arredondado para corresponder ao design
-                .border(4.dp, Color(0xFF9D4FFF), RoundedCornerShape(16.dp)) // Borda roxa arredondada
+                .size(300.dp) // Tamanho fixo da visualização da câmera
+                .clip(RoundedCornerShape(16.dp)) // Canto arredondado
+                .border(4.dp, Color(0xFF9D4FFF), RoundedCornerShape(16.dp)) // Borda roxa
         ) {
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                CameraPreviewView(
-                    onBarcodeDetected = { barcode ->
-                        codigoEan = barcode.displayValue ?: ""
-                    },
-                    context = context
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_qr_code),
-                    contentDescription = "Imagem de código de barras",
-                    modifier = Modifier.fillMaxSize() // Preencher o espaço disponível
-                )
-            }
+            CameraPreviewView(
+                onBarcodeDetected = { barcode ->
+                    codigoEan = barcode.displayValue ?: ""
+                },
+                context = LocalContext.current
+            )
         }
 
-        Spacer(modifier = Modifier.height(8.dp)) // Adicionar espaço entre a câmera e o título
-
-        // Título do cadastro
-        Text(
-            text = "Cadastro de produto",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
+        // Campos de cadastro do produto abaixo da câmera
         OutlinedTextField(
             value = codigoEan,
             onValueChange = { codigoEan = it },
             label = { Text("Código EAN") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color(0xFF9D4FFF),
-                unfocusedBorderColor = Color(0xFF9D4FFF),
-                cursorColor = Color(0xFF9D4FFF),
-                focusedLabelColor = Color(0xFF9D4FFF)
-            )
+            modifier = Modifier.fillMaxWidth()
         )
-
         OutlinedTextField(
             value = nomeProduto,
             onValueChange = { nomeProduto = it },
             label = { Text("Nome") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color(0xFF9D4FFF),
-                unfocusedBorderColor = Color(0xFF9D4FFF),
-                cursorColor = Color(0xFF9D4FFF),
-                focusedLabelColor = Color(0xFF9D4FFF)
-            )
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = precoVenda,
+            onValueChange = { precoVenda = it },
+            label = { Text("Preço de Venda") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = precoCompra,
+            onValueChange = { precoCompra = it },
+            label = { Text("Preço de Compra") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = quantidade,
+            onValueChange = { quantidade = it },
+            label = { Text("Quantidade") },
+            modifier = Modifier.fillMaxWidth()
         )
 
         Button(
-            onClick = { /* Ação de cadastro */ },
-            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                val precoVendaDouble = precoVenda.toDoubleOrNull() ?: 0.0
+                val precoCompraDouble = precoCompra.toDoubleOrNull() ?: 0.0
+                val quantidadeInt = quantidade.toIntOrNull() ?: 0
+                onCadastrarProduto(codigoEan, nomeProduto, precoVendaDouble, precoCompraDouble, quantidadeInt)
+            },
+            modifier = Modifier.fillMaxWidth(0.9f),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF9D4FFF)),
             shape = MaterialTheme.shapes.medium
         ) {
-            Text(text = "Cadastrar", color = Color.White)
+            Text("Cadastrar Produto")
         }
     }
 }
-
 
 @androidx.annotation.OptIn(ExperimentalGetImage::class)
 @Composable
@@ -197,7 +205,6 @@ fun CameraPreviewView(
 
         val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
-        // ImageAnalysis para processar os códigos de barras
         val imageAnalysis = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
@@ -207,9 +214,7 @@ fun CameraPreviewView(
             val mediaImage = imageProxy.image
             if (mediaImage != null) {
                 val image = InputImage.fromMediaImage(mediaImage, rotationDegrees)
-                processBarcodeImage(image, onBarcodeDetected) { e ->
-                    e.printStackTrace() // Tratar o erro
-                }
+                processBarcodeImage(image, onBarcodeDetected) { e -> e.printStackTrace() }
             }
             imageProxy.close()
         }
@@ -243,9 +248,5 @@ fun processBarcodeImage(image: InputImage, onSuccess: (Barcode) -> Unit, onError
                 onSuccess(barcodes[0])
             }
         }
-        .addOnFailureListener { e ->
-            onError(e)
-        }
+        .addOnFailureListener { e -> onError(e) }
 }
-
-

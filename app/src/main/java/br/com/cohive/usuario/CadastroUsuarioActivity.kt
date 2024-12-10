@@ -92,7 +92,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
 
         // Substituindo o título "cohive" pela imagem do logo
         Image(
-            painter = painterResource(id = R.drawable.logo_cohive), // Substitua pelo seu logo
+            painter = painterResource(id = R.drawable.logo_cohive),
             contentDescription = stringResource(R.string.app_name),
             modifier = Modifier
                 .height(100.dp)
@@ -101,7 +101,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
         )
 
         Text(
-            text = stringResource(R.string.cadastro), // "Inicie seu cadastro"
+            text = stringResource(R.string.cadastro),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black
@@ -110,7 +110,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
         OutlinedTextField(
             value = nome,
             onValueChange = { nome = it },
-            label = { Text(stringResource(R.string.nome_completo)) }, // "Nome completo"
+            label = { Text(stringResource(R.string.nome_completo)) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -123,7 +123,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
         OutlinedTextField(
             value = telefone,
             onValueChange = { telefone = it },
-            label = { Text(stringResource(R.string.telefone)) }, // "Telefone"
+            label = { Text(stringResource(R.string.telefone)) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -136,7 +136,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(stringResource(R.string.email)) }, // "E-mail"
+            label = { Text(stringResource(R.string.email)) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -149,7 +149,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
         OutlinedTextField(
             value = senha,
             onValueChange = { senha = it },
-            label = { Text(stringResource(R.string.senha)) }, // "Senha"
+            label = { Text(stringResource(R.string.senha)) },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF9D4FFF),
@@ -172,7 +172,7 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
                 colors = CheckboxDefaults.colors(checkedColor = Color(0xFF9D4FFF))
             )
             Text(
-                text = stringResource(R.string.aceito_os_termos_da_lgpd), // "Aceito os termos da LGPD"
+                text = stringResource(R.string.aceito_os_termos_da_lgpd),
                 color = Color(0xFF9D4FFF),
                 modifier = Modifier
                     .clickable { showLgpdDialog = true }
@@ -185,16 +185,16 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
                 onDismissRequest = { showLgpdDialog = false },
                 confirmButton = {
                     TextButton(onClick = { showLgpdDialog = false }) {
-                        Text(stringResource(R.string.fechar)) // "Fechar"
+                        Text(stringResource(R.string.fechar))
                     }
                 },
-                title = { Text(stringResource(R.string.termos_da_lgpd)) }, // "Termos da LGPD"
+                title = { Text(stringResource(R.string.termos_da_lgpd)) },
                 text = {
                     LazyColumn(
                         modifier = Modifier.height(300.dp)
                     ) {
                         item {
-                            Text(text = stringResource(R.string.termos_lgpd)) // Termos LGPD
+                            Text(text = stringResource(R.string.termos_lgpd))
                         }
                     }
                 }
@@ -203,14 +203,13 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
 
         Button(
             onClick = {
-                // Chamando a função de cadastro no ViewModel
                 val usuario = UsuarioCriacaoDto(
                     nome = nome,
                     numeroCelular = telefone,
                     email = email,
                     senha = senha
                 )
-                usuarioViewModel.cadastrar(usuario)// Passando o contexto aqui
+                usuarioViewModel.cadastrar(usuario)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -223,17 +222,23 @@ fun TelaCadastroUser(modifier: Modifier = Modifier, usuarioViewModel: UsuarioVie
         ) {
             Text(text = stringResource(R.string.cadastrar), color = Color.White, fontSize = 18.sp)
         }
-    }
+
+        Spacer(modifier = Modifier.height(8.dp)) // Espaço entre o botão e o texto
 
         Text(
-            text = stringResource(R.string.ja_tenho_uma_conta), // "Já tenho uma conta"
+            text = stringResource(R.string.ja_tenho_uma_conta),
             fontSize = 16.sp,
             color = Color(0xFF9D4FFF),
             modifier = Modifier
                 .padding(top = 8.dp)
-                .clickable { /* Ação de login */ }
+                .clickable {
+                    val intent = Intent(context, LoginActivity::class.java)
+                    context.startActivity(intent)
+                }
         )
+
     }
+}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
